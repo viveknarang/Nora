@@ -64,12 +64,20 @@ public class Extractor implements Runnable {
 		
 		long e = System.currentTimeMillis();
 		
-		logger.info(headers.length + " headers, " + rows.size() + " rows processed in " + ((e-s)/1000) + " seconds. The throughput is: " + rows.size()/((e-s)/1000) + " rows/sec");
+		logger.info(headers.length + " headers, " + rows.size() + " rows loaded in " + ((e-s)/1000) + " seconds. The throughput is: " + rows.size()/((e-s)/1000) + " rows/sec");
 		
 		logger.info(Arrays.toString(headers));
 		
 		logger.info("Parsing complete for file: " + file.getAbsolutePath());
 
+	}
+
+	public String[] getHeaders() {
+		return headers;
+	}
+
+	public List<String[]> getRows() {
+		return rows;
 	}
 
 }

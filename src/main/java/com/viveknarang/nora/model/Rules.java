@@ -1,11 +1,14 @@
 package com.viveknarang.nora.model;
 
+import java.util.Arrays;
+
 public class Rules {
 
 	private String fileName;
 	private String mapFromField;
 	private String collectionName;
 	private String mapToField;
+	private int mapIndex;
 
 	private boolean truncateEnabled = false;
 	private int truncateAfter;
@@ -19,8 +22,7 @@ public class Rules {
 	private boolean removeAllSpaces = false;
 	private boolean toLowerCase = false;
 	private boolean toUpperCase = false;
-	private String[] extractFromTo = null;		
-
+	private String[] extractFromTo = null;
 
 	public String getFileName() {
 		return fileName;
@@ -88,6 +90,22 @@ public class Rules {
 
 	public String[] getExtractFromTo() {
 		return extractFromTo;
-	}	
+	}
+
+	public int getMapIndex() {
+		return mapIndex;
+	}
+
+	@Override
+	public String toString() {
+		return "Rules [fileName=" + fileName + ", mapFromField=" + mapFromField + ", collectionName=" + collectionName
+				+ ", mapToField=" + mapToField + ", mapIndex=" + mapIndex + ", truncateEnabled=" + truncateEnabled
+				+ ", truncateAfter=" + truncateAfter + ", truncateEndChars=" + truncateEndChars + ", replaceNullWith="
+				+ replaceNullWith + ", replace=" + Arrays.toString(replace) + ", remove=" + remove
+				+ ", extractFromEndTo=" + extractFromEndTo + ", extractFromFrontTo=" + extractFromFrontTo + ", trim="
+				+ trim + ", removeAllSpaces=" + removeAllSpaces + ", toLowerCase=" + toLowerCase + ", toUpperCase="
+				+ toUpperCase + ", extractFromTo=" + Arrays.toString(extractFromTo) + "]";
+	}
+	
 
 }

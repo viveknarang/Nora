@@ -1,5 +1,7 @@
 package com.viveknarang.nora.model;
 
+import java.util.Arrays;
+
 public class Job {
 
 	public String name;
@@ -17,5 +19,10 @@ public class Job {
 	public String getStart() {
 		return start;
 	}
+
+	@Override
+	public String toString() {
+		return "Job [name=" + name + ", files=" + Arrays.toString(files) + ", start=" + start + "]";
+	}	
 
 }

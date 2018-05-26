@@ -4,20 +4,20 @@ import java.util.Arrays;
 
 public class Rules {
 
-	private String fileName;
-	private String mapFromField;
-	private String collectionName;
-	private String mapToField;
-	private int mapIndex;
+	private String fileName = null;
+	private String mapFromField = null;
+	private String collectionName = null;
+	private String mapToField = null;
+	private int mapIndex = -1;
 
 	private boolean truncateEnabled = false;
-	private int truncateAfter;
-	private String truncateEndChars;
-	private String replaceNullWith;
-	private String[] replace;
-	private String remove;
-	private String extractFromEndTo;
-	private String extractFromFrontTo;
+	private int truncateAfter = -1;
+	private String truncateEndChars = null;
+	private String replaceNullWith = null;
+	private String[] replace = null;
+	private String remove = null;
+	private String extractFromEndTo = null;
+	private String extractFromFrontTo = null;
 	private boolean trim = false;
 	private boolean removeAllSpaces = false;
 	private boolean toLowerCase = false;

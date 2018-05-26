@@ -7,18 +7,20 @@ public class Rules {
 	private String collectionName;
 	private String mapToField;
 
-	private boolean truncateEnabled;
+	private boolean truncateEnabled = false;
 	private int truncateAfter;
 	private String truncateEndChars;
 	private String replaceNullWith;
-	private String replace;
+	private String[] replace;
 	private String remove;
 	private String extractFromEndTo;
 	private String extractFromFrontTo;
-	private String trim = "true";
-	private boolean removeAllSpaces;
-	private boolean toLowerCase;
-	private boolean toUpperCase;
+	private boolean trim = false;
+	private boolean removeAllSpaces = false;
+	private boolean toLowerCase = false;
+	private boolean toUpperCase = false;
+	private String[] extractFromTo = null;		
+
 
 	public String getFileName() {
 		return fileName;
@@ -52,7 +54,7 @@ public class Rules {
 		return replaceNullWith;
 	}
 
-	public String getReplace() {
+	public String[] getReplace() {
 		return replace;
 	}
 
@@ -68,7 +70,7 @@ public class Rules {
 		return extractFromFrontTo;
 	}
 
-	public String getTrim() {
+	public boolean getTrim() {
 		return trim;
 	}
 
@@ -83,5 +85,9 @@ public class Rules {
 	public boolean isToUpperCase() {
 		return toUpperCase;
 	}
+
+	public String[] getExtractFromTo() {
+		return extractFromTo;
+	}	
 
 }

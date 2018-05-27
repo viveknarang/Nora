@@ -28,7 +28,7 @@ public class Util {
 		logger.info("Util:loadRules():Start");
 		Gson gson = new Gson();
 		RulesConfiguration rulesConf = gson.fromJson(new FileReader(jobName + ".rules.conf"), RulesConfiguration.class);
-		logger.info("Util:loadRules():End");
+		logger.info("Util:loadRules():Complete");
 		return rulesConf;
 	}
 

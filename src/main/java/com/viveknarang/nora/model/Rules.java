@@ -1,7 +1,5 @@
 package com.viveknarang.nora.model;
 
-import java.util.Arrays;
-
 public class Rules {
 
 	private String fileName = null;
@@ -10,18 +8,16 @@ public class Rules {
 	private String mapToField = null;
 	private int mapIndex = -1;
 
-	private boolean truncateEnabled = false;
-	private int truncateAfter = -1;
-	private String truncateEndChars = null;
-	private String replaceNullWith = null;
+	private String[] truncateAfter = null;
+	private String[] replaceNullWith = null;
 	private String[] replace = null;
-	private String remove = null;
-	private String extractFromEndTo = null;
-	private String extractFromFrontTo = null;
-	private boolean trim = false;
-	private boolean removeAllSpaces = false;
-	private boolean toLowerCase = false;
-	private boolean toUpperCase = false;
+	private String[] remove = null;
+	private String[] extractFromEndTo = null;
+	private String[] extractFromFrontTo = null;
+	private String[] trim = null;
+	private String[] removeAllSpaces = null;
+	private String[] toLowerCase = null;
+	private String[] toUpperCase = null;
 	private String[] extractFromTo = null;
 
 	public String getFileName() {
@@ -40,19 +36,15 @@ public class Rules {
 		return mapToField;
 	}
 
-	public boolean isTruncateEnabled() {
-		return truncateEnabled;
+	public int getMapIndex() {
+		return mapIndex;
 	}
 
-	public int getTruncateAfter() {
+	public String[] getTruncateAfter() {
 		return truncateAfter;
 	}
 
-	public String getTruncateEndChars() {
-		return truncateEndChars;
-	}
-
-	public String getReplaceNullWith() {
+	public String[] getReplaceNullWith() {
 		return replaceNullWith;
 	}
 
@@ -60,52 +52,36 @@ public class Rules {
 		return replace;
 	}
 
-	public String getRemove() {
+	public String[] getRemove() {
 		return remove;
 	}
 
-	public String getExtractFromEndTo() {
+	public String[] getExtractFromEndTo() {
 		return extractFromEndTo;
 	}
 
-	public String getExtractFromFrontTo() {
+	public String[] getExtractFromFrontTo() {
 		return extractFromFrontTo;
 	}
 
-	public boolean getTrim() {
+	public String[] getTrim() {
 		return trim;
 	}
 
-	public boolean isRemoveAllSpaces() {
+	public String[] getRemoveAllSpaces() {
 		return removeAllSpaces;
 	}
 
-	public boolean isToLowerCase() {
+	public String[] getToLowerCase() {
 		return toLowerCase;
 	}
 
-	public boolean isToUpperCase() {
+	public String[] getToUpperCase() {
 		return toUpperCase;
 	}
 
 	public String[] getExtractFromTo() {
 		return extractFromTo;
 	}
-
-	public int getMapIndex() {
-		return mapIndex;
-	}
-
-	@Override
-	public String toString() {
-		return "Rules [fileName=" + fileName + ", mapFromField=" + mapFromField + ", collectionName=" + collectionName
-				+ ", mapToField=" + mapToField + ", mapIndex=" + mapIndex + ", truncateEnabled=" + truncateEnabled
-				+ ", truncateAfter=" + truncateAfter + ", truncateEndChars=" + truncateEndChars + ", replaceNullWith="
-				+ replaceNullWith + ", replace=" + Arrays.toString(replace) + ", remove=" + remove
-				+ ", extractFromEndTo=" + extractFromEndTo + ", extractFromFrontTo=" + extractFromFrontTo + ", trim="
-				+ trim + ", removeAllSpaces=" + removeAllSpaces + ", toLowerCase=" + toLowerCase + ", toUpperCase="
-				+ toUpperCase + ", extractFromTo=" + Arrays.toString(extractFromTo) + "]";
-	}
-	
 
 }

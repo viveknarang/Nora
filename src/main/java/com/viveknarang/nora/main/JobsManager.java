@@ -32,6 +32,6 @@ public class JobsManager {
 
 		}
 
-		logger.info("JobsManager:execute()::End");
+		logger.info("JobsManager:execute()::Complete");
 	}
 }

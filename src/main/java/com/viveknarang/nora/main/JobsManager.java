@@ -26,7 +26,7 @@ public class JobsManager {
 			RulesConfiguration rule = Util.loadRules(job.getName());
 			for (String fileName : job.getFiles()) {
 				Extractor e = new Extractor(new File(fileName));
-				e.run();
+				e.extract();
 				Transformer.transform(job, rule.rules, e.getRows(), fileName);
 			}
 

@@ -25,10 +25,10 @@ public class Util {
 
 	public static RulesConfiguration loadRules(String jobName) throws JsonIOException, IOException {
 
-		logger.info("Util:loadRules():Start");
+		logger.info("Util:loadRules(" + jobName + "):Start");
 		Gson gson = new Gson();
 		RulesConfiguration rulesConf = gson.fromJson(new FileReader(jobName + ".rules.conf"), RulesConfiguration.class);
-		logger.info("Util:loadRules():Complete");
+		logger.info("Util:loadRules(" + jobName + "):Complete");
 		return rulesConf;
 	}
 

@@ -10,6 +10,11 @@ import com.google.gson.JsonIOException;
 import com.viveknarang.nora.model.Job;
 import com.viveknarang.nora.model.RulesConfiguration;
 
+/**
+ * 
+ * @author Vivek Narang
+ *
+ */
 public class JobsManager {
 
 	final static Logger logger = Logger.getLogger(JobsManager.class);

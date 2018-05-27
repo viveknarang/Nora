@@ -2,6 +2,11 @@ package com.viveknarang.nora.model;
 
 import java.util.Arrays;
 
+/**
+ * 
+ * @author Vivek Narang
+ *
+ */
 public class Job {
 
 	public String name;

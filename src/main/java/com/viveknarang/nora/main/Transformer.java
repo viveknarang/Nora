@@ -11,6 +11,11 @@ import org.apache.log4j.Logger;
 import com.viveknarang.nora.model.Job;
 import com.viveknarang.nora.model.Rules;
 
+/**
+ * 
+ * @author Vivek Narang
+ *
+ */
 public class Transformer {
 
 	private static HashMap<Integer, TreeMap<Integer, List<String>>> rulesMap = new HashMap<Integer, TreeMap<Integer, List<String>>>();
@@ -54,10 +59,10 @@ public class Transformer {
 
 		long e = System.currentTimeMillis();
 		logger.info("Transformer:transform()::Complete >> Transformation completed in: " + ((e - s) / 1000)
-				+ " seconds for a total of: " + rows.size() + " records");
+				+ " seconds on a total of: " + rows.size() + " records & " + rulesMap.size() + " fields...");
 	}
 
-	public static String transform(String field, TreeMap<Integer, List<String>> rule_) {
+	private static String transform(String field, TreeMap<Integer, List<String>> rule_) {
 
 		for (Integer rule : rule_.keySet()) {
 			if (rule_.get(rule).get(1).equals("replaceNullWith") && field.length() == 0

@@ -11,6 +11,9 @@ import com.univocity.parsers.common.processor.RowListProcessor;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
+/**
+ * @author Vivek Narang
+ */
 public class Extractor {
 	
 	final static Logger logger = Logger.getLogger(Extractor.class);

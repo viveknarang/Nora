@@ -1,9 +1,6 @@
 package com.viveknarang.nora.main;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import com.viveknarang.nora.model.ETLJob;
@@ -26,11 +23,13 @@ public class Transformer {
 		super();
 	}
 
+	public static List<String[]> transformedRows = new LinkedList<>();
+
 	public static void transform(ETLJob job, List<Rules> rules, List<String[]> rows, String fileName) {
 		logger.info("Transformer:transform()::Start");
 		long s = System.currentTimeMillis();
 		rulesMap = new HashMap<>();
-		int i = 0;
+		int i;
 
 		for (Rules rule : rules) {
 
@@ -56,6 +55,8 @@ public class Transformer {
 		}
 
 		System.out.println(Arrays.toString(rows.get(0)));
+
+		transformedRows.addAll(rows);
 
 		long e = System.currentTimeMillis();
 		logger.info("Transformer:transform()::Complete >> Transformation completed in: " + ((e - s) / 1000)

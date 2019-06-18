@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
+import com.viveknarang.nora.model.ETLJob;
 import org.apache.log4j.Logger;
 
-import com.viveknarang.nora.model.Job;
 import com.viveknarang.nora.model.Rules;
 
 /**
@@ -18,23 +18,23 @@ import com.viveknarang.nora.model.Rules;
  */
 public class Transformer {
 
-	private static HashMap<Integer, TreeMap<Integer, List<String>>> rulesMap = new HashMap<Integer, TreeMap<Integer, List<String>>>();
+	private static HashMap<Integer, TreeMap<Integer, List<String>>> rulesMap = new HashMap<>();
 
-	final static Logger logger = Logger.getLogger(Transformer.class);
+	private final static Logger logger = Logger.getLogger(Transformer.class);
 
 	public Transformer() {
 		super();
 	}
 
-	public static void transform(Job job, List<Rules> rules, List<String[]> rows, String fileName) {
+	public static void transform(ETLJob job, List<Rules> rules, List<String[]> rows, String fileName) {
 		logger.info("Transformer:transform()::Start");
 		long s = System.currentTimeMillis();
-		rulesMap = new HashMap<Integer, TreeMap<Integer, List<String>>>();
+		rulesMap = new HashMap<>();
 		int i = 0;
 
 		for (Rules rule : rules) {
 
-			TreeMap<Integer, List<String>> rules$ = new TreeMap<Integer, List<String>>();
+			TreeMap<Integer, List<String>> rules$ = new TreeMap<>();
 			if (rule.getFileName().equals(fileName)) {
 
 				for (int ti = 0; ti < rule.getTransform().size(); ti++) {

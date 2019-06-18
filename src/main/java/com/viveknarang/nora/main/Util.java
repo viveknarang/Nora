@@ -17,14 +17,15 @@ import com.viveknarang.nora.model.RulesConfiguration;
  */
 public class Util {
 
-	final static Logger logger = Logger.getLogger(Util.class);
-	static JobConfiguration conf;
+	private final static Logger logger = Logger.getLogger(Util.class);
+	public static JobConfiguration conf;
 
 	public static void loadConf() throws JsonIOException, IOException {
 
 		logger.info("Util:loadConf():Start");
 		Gson gson = new Gson();
 		conf = gson.fromJson(new FileReader("jobs.conf"), JobConfiguration.class);
+		System.out.println(conf.jobs);
 		logger.info("Util:loadConf():End");
 	}
 

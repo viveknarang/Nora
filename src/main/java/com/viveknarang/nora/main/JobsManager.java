@@ -19,7 +19,7 @@ public class JobsManager {
 
 	final static Logger logger = Logger.getLogger(JobsManager.class);
 
-	public static void execute() throws JsonIOException, SchedulerException {
+	public static void schedule() throws JsonIOException, SchedulerException {
 
 		logger.info("JobsManager:execute()::Start");
 
@@ -40,7 +40,7 @@ public class JobsManager {
 			scheduler.start();
 			scheduler.scheduleJob(xjob, trigger);
 
-			logger.info(" Scheduling Job: " + job.getName());
+			logger.info("Scheduling Job: " + job.getName());
 
 		}
 

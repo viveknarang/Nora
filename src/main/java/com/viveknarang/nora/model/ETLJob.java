@@ -49,11 +49,11 @@ public class ETLJob implements Job{
 
 	public void execute(JobExecutionContext context) {
 
-		logger.info("ETLJob:execute():Start");
-
 		JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 		String name = dataMap.getString("NAME");
 		String[] files = (String[])dataMap.get("FILES");
+
+		logger.info("ETLJob:execute():Start ## EXECUTING JOB : " + name);
 
 		try {
 			RulesConfiguration rule = Util.loadRules(name);

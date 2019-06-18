@@ -19,7 +19,7 @@ public class App {
 
 		logger.info("................... Nora ETL Welcome! ...................");
 		Util.loadConf();
-		JobsManager.execute();
+		JobsManager.schedule();
 
 	}
 

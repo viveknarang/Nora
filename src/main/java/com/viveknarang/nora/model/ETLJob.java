@@ -53,6 +53,7 @@ public class ETLJob implements Job{
 		String name = dataMap.getString("NAME");
 		String[] files = (String[])dataMap.get("FILES");
 
+		logger.info("------------------------------------------------------------------------------------------------------------------------------------------------");
 		logger.info("ETLJob:execute():Start ## EXECUTING JOB : " + name);
 
 		try {
@@ -66,6 +67,8 @@ public class ETLJob implements Job{
 			logger.error("Exception: " + e);
 		}
 
+		logger.info("ETLJob:execute():End ## EXECUTING JOB : " + name);
+		logger.info("------------------------------------------------------------------------------------------------------------------------------------------------");
 	}
 
 }

@@ -18,8 +18,9 @@ public class App {
 	public static void main(String[] args) throws JsonIOException, IOException, SchedulerException {
 
 		logger.info("................... Nora ETL Welcome! ...................");
-		Util.loadConf();
-		JobsManager.schedule();
+		//Util.loadConf();
+		//JobsManager.schedule();
+		Loader l = new Loader();
 
 	}
 

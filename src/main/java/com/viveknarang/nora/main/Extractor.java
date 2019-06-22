@@ -18,7 +18,7 @@ public class Extractor {
 	
 	final static Logger logger = Logger.getLogger(Extractor.class);
 
-	private String[] headers;
+	public static String[] headers;
 	private List<String[]> rows;
 	private File file;
 

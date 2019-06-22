@@ -9,19 +9,17 @@ import org.quartz.SchedulerException;
 
 /**
  * @author Vivek Narang
- *
  */
 public class App {
 
-	private final static Logger logger = Logger.getLogger(App.class);
+    private final static Logger logger = Logger.getLogger(App.class);
 
-	public static void main(String[] args) throws JsonIOException, IOException, SchedulerException {
+    public static void main(String[] args) throws JsonIOException, IOException, SchedulerException {
 
-		logger.info("................... Nora ETL Welcome! ...................");
-		//Util.loadConf();
-		//JobsManager.schedule();
-		Loader l = new Loader();
+        logger.info("................... Nora ETL Welcome! ...................");
+        Util.loadConf();
+        JobsManager.schedule();
 
-	}
+    }
 
 }

@@ -1,11 +1,13 @@
 package com.viveknarang.nora.model;
 
-import com.mongodb.MongoCredential;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
 import org.bson.Document;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class MongoDBConnector {
 
@@ -20,15 +22,14 @@ public class MongoDBConnector {
     public MongoClient mongo;
     public MongoDatabase database;
     public MongoCollection dbcollection;
+    public List<Document> docs = new LinkedList<>();
 
     // private constructor for singleton class
-    private MongoDBConnector()
-    {
+    private MongoDBConnector() {
         connect();
     }
 
-    public static MongoDBConnector getInstance()
-    {
+    public static MongoDBConnector getInstance() {
         if (single_instance == null)
             single_instance = new MongoDBConnector();
 
@@ -49,7 +50,7 @@ public class MongoDBConnector {
 
         logger.info("Connected to the database successfully");
 
-        logger.info("Credentials ::"+ credential);
+        logger.info("Credentials ::" + credential);
 
     }
 
@@ -75,6 +76,23 @@ public class MongoDBConnector {
         logger.info("MongoDBConnector::getCollection() Start");
         dbcollection = database.getCollection(collection);
         logger.info("MongoDBConnector::getCollection() End");
+    }
+
+    public void insertIntoList(String[] header, String[] record) {
+
+        Document document = new Document();
+
+        for (int i = 0; i < header.length; i++) {
+            document.put(header[i], record[i]);
+        }
+
+        docs.add(document);
+    }
+
+    public void commit() throws Exception {
+        logger.info("Committing + " + docs.size() + " documents into MongoDB");
+        dbcollection.insertMany(docs);
+        docs.clear();
     }
 
     public void closeConnection() {

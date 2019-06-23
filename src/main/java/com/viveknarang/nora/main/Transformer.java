@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import com.viveknarang.nora.model.ETLJob;
 import org.apache.log4j.Logger;
 
-import com.viveknarang.nora.model.Rules;
+import com.viveknarang.nora.model.Rule;
 
 /**
  * 
@@ -25,13 +25,13 @@ public class Transformer {
 
 	public static List<String[]> transformedRows = new LinkedList<>();
 
-	public static void transform(ETLJob job, List<Rules> rules, List<String[]> rows, String fileName) {
+	public static void transform(ETLJob job, List<Rule> rules, List<String[]> rows, String fileName) {
 		logger.info("Transformer:transform()::Start");
 		long s = System.currentTimeMillis();
 		rulesMap = new HashMap<>();
 		int i;
 
-		for (Rules rule : rules) {
+		for (Rule rule : rules) {
 
 			TreeMap<Integer, List<String>> rules$ = new TreeMap<>();
 			if (rule.getFileName().equals(fileName)) {

@@ -28,6 +28,12 @@ public class ETLJob implements Job {
 
     public String schedule;
 
+    public String database;
+
+    public String collection;
+
+    public String batchSize;
+
     public String getName() {
         return name;
     }
@@ -40,6 +46,18 @@ public class ETLJob implements Job {
         return schedule;
     }
 
+    public String getDatabase() {
+        return database;
+    }
+
+    public String getCollection() {
+        return collection;
+    }
+
+    public String getBatchSize() {
+        return batchSize;
+    }
+
     @Override
     public String toString() {
         return "ETLJob [name=" + name + ", files=" + Arrays.toString(files) + ", schedule=" + schedule + "]";
@@ -50,6 +68,9 @@ public class ETLJob implements Job {
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
         String name = dataMap.getString("NAME");
         String[] files = (String[]) dataMap.get("FILES");
+        String database = dataMap.getString("DATABASE");
+        String collection = dataMap.getString("COLLECTION");
+        int batchSize = Integer.parseInt(dataMap.getString("BATCH_SIZE"));
 
         logger.info("------------------------------------------------------------------------------------------------------------------------------------------------");
         logger.info("ETLJob:execute():Start ## EXECUTING JOB : " + name);
@@ -60,7 +81,7 @@ public class ETLJob implements Job {
                 Extractor e = new Extractor(new File(fileName));
                 e.extract();
                 Transformer.transform(this, rule.rules, e.getRows(), fileName);
-                Loader loader = new Loader("Test", "Collection", 100000);
+                Loader loader = new Loader(database, collection, batchSize);
                 loader.load();
             }
         } catch (Exception e) {

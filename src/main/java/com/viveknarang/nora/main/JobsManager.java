@@ -32,6 +32,9 @@ public class JobsManager {
 			JobDataMap jobDataMap = xjob.getJobDataMap();
 			jobDataMap.put("NAME", job.getName());
 			jobDataMap.put("FILES", job.getFiles());
+			jobDataMap.put("DATABASE", job.getDatabase());
+			jobDataMap.put("COLLECTION", job.getCollection());
+			jobDataMap.put("BATCH_SIZE", job.getBatchSize());
 
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity(job.getName(), "Nora").withSchedule(
 							CronScheduleBuilder.cronSchedule(job.getSchedule())).build();

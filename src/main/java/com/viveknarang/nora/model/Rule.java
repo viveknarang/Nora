@@ -9,8 +9,6 @@ public class Rule {
 
     private String fileName = null;
     private String mapFromField = null;
-    private String database = null;
-    private String collectionName = null;
     private String mapToField = null;
     private int mapIndex = -1;
     private List<List<String>> transform = null;
@@ -21,14 +19,6 @@ public class Rule {
 
     public String getMapFromField() {
         return mapFromField;
-    }
-
-    public String getDatabase() {
-        return database;
-    }
-
-    public String getCollectionName() {
-        return collectionName;
     }
 
     public String getMapToField() {

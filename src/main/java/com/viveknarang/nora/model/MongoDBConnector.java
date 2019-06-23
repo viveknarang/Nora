@@ -6,7 +6,6 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;
 import org.bson.Document;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class MongoDBConnector {
@@ -22,11 +21,9 @@ public class MongoDBConnector {
     public MongoClient mongo;
     public MongoDatabase database;
     public MongoCollection dbcollection;
-    public List<Document> docs = new LinkedList<>();
 
     // private constructor for singleton class
     private MongoDBConnector() {
-        connect();
     }
 
     public static MongoDBConnector getInstance() {
@@ -36,7 +33,7 @@ public class MongoDBConnector {
         return single_instance;
     }
 
-    private void connect() {
+    public void connect() {
 
         logger.info("MongoDBConnector::connect() >> Attempting to connect to MongoDB at: " + address + " port: " + port);
 
@@ -78,18 +75,7 @@ public class MongoDBConnector {
         logger.info("MongoDBConnector::getCollection() End");
     }
 
-    public void insertIntoList(String[] header, String[] record) {
-
-        Document document = new Document();
-
-        for (int i = 0; i < header.length; i++) {
-            document.put(header[i], record[i]);
-        }
-
-        docs.add(document);
-    }
-
-    public void commit() throws Exception {
+    public void commit(List<Document> docs) throws Exception {
         logger.info("Committing + " + docs.size() + " documents into MongoDB");
         dbcollection.insertMany(docs);
         docs.clear();

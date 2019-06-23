@@ -60,7 +60,8 @@ public class ETLJob implements Job {
                 Extractor e = new Extractor(new File(fileName));
                 e.extract();
                 Transformer.transform(this, rule.rules, e.getRows(), fileName);
-                Loader l = new Loader();
+                Loader loader = new Loader("Test", "Collection", 100000);
+                loader.load();
             }
         } catch (Exception e) {
             logger.error("Exception: " + e);

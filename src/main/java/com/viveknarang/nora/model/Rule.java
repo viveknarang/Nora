@@ -9,8 +9,10 @@ public class Rule {
 
     private String fileName = null;
     private String mapFromField = null;
+    private int fromFieldIndex = 0;
+    private String overWrite = null;
     private String mapToField = null;
-    private int mapIndex = -1;
+
     private List<List<String>> transform = null;
 
     public String getFileName() {
@@ -21,13 +23,13 @@ public class Rule {
         return mapFromField;
     }
 
+    public int getFromFieldIndex() { return fromFieldIndex; }
+
     public String getMapToField() {
         return mapToField;
     }
 
-    public int getMapIndex() {
-        return mapIndex;
-    }
+    public String getOverwrite() { return overWrite; }
 
     public List<List<String>> getTransform() {
         return transform;

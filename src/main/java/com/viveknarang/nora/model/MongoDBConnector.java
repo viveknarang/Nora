@@ -59,6 +59,7 @@ public class MongoDBConnector {
         logger.info("MongoDBConnector::getDatabase() Start");
         database = mongo.getDatabase(db);
         logger.info("MongoDBConnector::getDatabase() End");
+
         return database;
     }
 
@@ -75,7 +76,7 @@ public class MongoDBConnector {
         logger.info("MongoDBConnector::getCollection() End");
     }
 
-    public void commit(List<Document> docs) throws Exception {
+    public void insert(List<Document> docs) throws Exception {
         logger.info("Committing + " + docs.size() + " documents into MongoDB");
         dbcollection.insertMany(docs);
         docs.clear();

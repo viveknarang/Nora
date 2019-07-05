@@ -40,6 +40,7 @@ public class Loader {
 
     public void load() {
 
+
         try {
 
             Gson gson = new Gson();
@@ -48,7 +49,7 @@ public class Loader {
 
                 if (i % batchSize == 0) {
                     logger.info("Dumping " + batchSize + " documents into the list");
-                    db.commit(docs);
+                    db.insert(docs);
                     docs = new LinkedList<>();
                 }
 
@@ -64,12 +65,12 @@ public class Loader {
 
     }
 
-    public void insertIntoList(String[] header, String[] record) {
+    public void insertIntoList(String[] header, List<String> record) {
 
         Document document = new Document();
 
         for (int i = 0; i < header.length; i++) {
-            document.put(header[i], record[i]);
+            document.put(header[i], record.get(i));
         }
 
         docs.add(document);

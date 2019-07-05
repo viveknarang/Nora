@@ -23,44 +23,51 @@ public class Transformer {
 		super();
 	}
 
-	public static List<String[]> transformedRows = new LinkedList<>();
+	public static List<List<String>> transformedRows = new LinkedList<>();
+	public static List<String> transformedRowsHeader = new LinkedList<>();
 
 	public static void transform(ETLJob job, List<Rule> rules, List<String[]> rows, String fileName) {
+
 		logger.info("Transformer:transform()::Start");
 		long s = System.currentTimeMillis();
 		rulesMap = new HashMap<>();
+
 		int i;
 
 		for (Rule rule : rules) {
 
 			TreeMap<Integer, List<String>> rules$ = new TreeMap<>();
+
 			if (rule.getFileName().equals(fileName)) {
 
 				for (int ti = 0; ti < rule.getTransform().size(); ti++) {
 					rules$.put(Integer.parseInt(rule.getTransform().get(ti).get(0)), rule.getTransform().get(ti));
 				}
 
-				rulesMap.put(rule.getMapIndex(), rules$);
+				rulesMap.put(rule.getFromFieldIndex(), rules$);
 			}
 
 		}
 
 		for (String[] row : rows) {
-
+			List<String> lst = new LinkedList<>();
 			for (i = 0; i < row.length; i++) {
 				if (rulesMap.containsKey(i)) {
-					row[i] = transform(row[i], rulesMap.get(i));
+					lst.add(transform(row[i], rulesMap.get(i)));
+				} else {
+					lst.add(row[i]);
 				}
 			}
+			transformedRows.add(lst);
 		}
 
-		System.out.println(Arrays.toString(rows.get(0)));
+		System.out.println("## SAMPLE TRANSFORMED ROW : " + transformedRows.get(0));
 
-		transformedRows.addAll(rows);
 
 		long e = System.currentTimeMillis();
 		logger.info("Transformer:transform()::Complete >> Transformation completed in: " + ((e - s) / 1000)
 				+ " seconds on a total of: " + rows.size() + " records & " + rulesMap.size() + " fields...");
+
 	}
 
 	private static String transform(String field, TreeMap<Integer, List<String>> rule_) {

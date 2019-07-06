@@ -2,6 +2,7 @@ package com.viveknarang.nora.main;
 
 import com.univocity.parsers.common.processor.ConcurrentRowProcessor;
 import com.univocity.parsers.common.processor.RowListProcessor;
+import com.univocity.parsers.csv.CsvFormat;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import org.apache.log4j.Logger;
@@ -33,6 +34,14 @@ public class Extractor {
 
         CsvParserSettings parserSettings = new CsvParserSettings();
         parserSettings.setLineSeparatorDetectionEnabled(true);
+
+        CsvFormat format = new CsvFormat();
+        format.setDelimiter(',');
+        format.setLineSeparator("\n");
+        format.setCharToEscapeQuoteEscaping('\0');
+        format.setQuote('"');
+        parserSettings.setFormat(format);
+
         RowListProcessor rowProcessor = new RowListProcessor();
         parserSettings.setProcessor(new ConcurrentRowProcessor(rowProcessor));
         parserSettings.setHeaderExtractionEnabled(true);

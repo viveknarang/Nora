@@ -26,6 +26,8 @@ public class ETLJob implements Job {
 
     public String[] files;
 
+    public String csvDelimiter;
+
     public String schedule;
 
     public String database;
@@ -40,6 +42,10 @@ public class ETLJob implements Job {
 
     public String[] getFiles() {
         return files;
+    }
+
+    public String getCsvDelimiter() {
+        return csvDelimiter;
     }
 
     public String getSchedule() {
@@ -68,6 +74,7 @@ public class ETLJob implements Job {
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
         String name = dataMap.getString("NAME");
         String[] files = (String[]) dataMap.get("FILES");
+        String csvDelimiter = dataMap.getString("DELIMITER");
         String database = dataMap.getString("DATABASE");
         String collection = dataMap.getString("COLLECTION");
         int batchSize = Integer.parseInt(dataMap.getString("BATCH_SIZE"));
@@ -78,7 +85,7 @@ public class ETLJob implements Job {
         try {
             RulesConfiguration rule = Util.loadRules(name);
             for (String fileName : files) {
-                Extractor e = new Extractor(new File(fileName));
+                Extractor e = new Extractor(new File(fileName), csvDelimiter);
                 e.extract();
                 Transformer.transform(this, rule.rules, e.getRows(), fileName, e.getHeaders());
                 Loader loader = new Loader(database, collection, batchSize);

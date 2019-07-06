@@ -21,10 +21,12 @@ public class Extractor {
     public static String[] headers;
     private List<String[]> rows;
     private File file;
+    private String csvDelimiter;
 
-    public Extractor(File file) {
+    public Extractor(File file, String csvDelimiter) {
         super();
         this.file = file;
+        this.csvDelimiter = csvDelimiter;
     }
 
     public void extract() {
@@ -36,7 +38,7 @@ public class Extractor {
         parserSettings.setLineSeparatorDetectionEnabled(true);
 
         CsvFormat format = new CsvFormat();
-        format.setDelimiter(',');
+        format.setDelimiter(csvDelimiter.charAt(0));
         format.setLineSeparator("\n");
         format.setCharToEscapeQuoteEscaping('\0');
         format.setQuote('"');

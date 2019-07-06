@@ -28,13 +28,15 @@ public class ETLJob implements Job {
 
     public String csvDelimiter;
 
+    public int numberOfRecords;
+
     public String schedule;
 
     public String database;
 
     public String collection;
 
-    public String batchSize;
+    public int batchSize;
 
     public String getName() {
         return name;
@@ -46,6 +48,10 @@ public class ETLJob implements Job {
 
     public String getCsvDelimiter() {
         return csvDelimiter;
+    }
+
+    public int getNumberOfRecords() {
+        return numberOfRecords;
     }
 
     public String getSchedule() {
@@ -60,7 +66,7 @@ public class ETLJob implements Job {
         return collection;
     }
 
-    public String getBatchSize() {
+    public int getBatchSize() {
         return batchSize;
     }
 
@@ -75,9 +81,10 @@ public class ETLJob implements Job {
         String name = dataMap.getString("NAME");
         String[] files = (String[]) dataMap.get("FILES");
         String csvDelimiter = dataMap.getString("DELIMITER");
+        int noOfRecords = dataMap.getIntValue("NO_OF_RECORDS");
         String database = dataMap.getString("DATABASE");
         String collection = dataMap.getString("COLLECTION");
-        int batchSize = Integer.parseInt(dataMap.getString("BATCH_SIZE"));
+        int batchSize = dataMap.getIntValue("BATCH_SIZE");
 
         logger.info("------------------------------------------------------------------------------------------------------------------------------------------------");
         logger.info("ETLJob:execute():Start ## EXECUTING JOB : " + name);
@@ -85,11 +92,18 @@ public class ETLJob implements Job {
         try {
             RulesConfiguration rule = Util.loadRules(name);
             for (String fileName : files) {
+
                 Extractor e = new Extractor(new File(fileName), csvDelimiter);
                 e.extract();
-                Transformer.transform(this, rule.rules, e.getRows(), fileName, e.getHeaders());
-                Loader loader = new Loader(database, collection, batchSize);
+
+                if (noOfRecords < 0) {
+                    noOfRecords = e.getRows().size();
+                }
+
+                Transformer.transform(this, rule.rules, e.getRows(), fileName, e.getHeaders(), noOfRecords);
+                Loader loader = new Loader(database, collection, batchSize, noOfRecords);
                 loader.load();
+
             }
         } catch (Exception e) {
             logger.error("Exception: " + e);

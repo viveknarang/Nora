@@ -3,6 +3,7 @@ package com.viveknarang.nora.main;
 import com.viveknarang.nora.model.ETLJob;
 import com.viveknarang.nora.model.Rule;
 import org.apache.log4j.Logger;
+import org.bson.Document;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,22 +21,17 @@ public class Transformer {
     private static HashMap<Integer, Rule> metaMap = new HashMap<>();
     private static HashMap<Integer, String> fieldIndexMap = new HashMap<>();
     private static HashMap<String, Integer> reverseFieldIndexMap = new HashMap<>();
-    private static List<List<String>> transformedRows = new LinkedList<>();
-    private static List<String> transformedRowsHeader = new LinkedList<>();
+    private static List<Document> transformedRows = new LinkedList<>();
 
     public Transformer() {
         super();
     }
 
-    public static List<List<String>> getTransformedRows() {
+    public static List<Document> getTransformedRows() {
         return transformedRows;
     }
 
-    public static List<String> getTransformedRowsHeader() {
-        return transformedRowsHeader;
-    }
-
-    public static void transform(ETLJob job, List<Rule> rules, List<String[]> rows, String fileName, String[] headers) {
+    public static void transform(ETLJob job, List<Rule> rules, List<String[]> rows, String fileName, String[] headers, int noOfRecords) {
 
         logger.info("Transformer:transform()::Start");
         long s = System.currentTimeMillis();
@@ -65,11 +61,17 @@ public class Transformer {
 
         }
 
-        int r = 0;
+        int p = 0;
 
         for (String[] row : rows) {
 
-            List<String> lst = new LinkedList<>();
+            p++;
+
+            if (p == noOfRecords) {
+                break;
+            }
+
+            Document doc = new Document();
 
             for (i = 0; i < row.length; i++) {
 
@@ -79,42 +81,36 @@ public class Transformer {
 
                         if (metaMap.get(i).getOverwrite().equalsIgnoreCase("true")) {
 
-                            if (r == 0) {
-                                if (metaMap.get(i) != null && metaMap.get(i).getMapToField() != null) {
-                                    transformedRowsHeader.add(metaMap.get(i).getMapToField());
-                                } else {
-                                    transformedRowsHeader.add(headers[i]);
-                                }
-                            }
+                            if (metaMap.get(i) != null && metaMap.get(i).getMapToField() != null) {
 
-                            lst.add(transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
+                                doc.put(metaMap.get(i).getMapToField(), transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
+
+                            } else {
+
+                                doc.put(headers[i], transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
+
+                            }
 
                         } else {
 
-                            lst.add(row[i]);
-                            lst.add(transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
 
-                            if (r == 0) {
-                                transformedRowsHeader.add(headers[i]);
-                                transformedRowsHeader.add(metaMap.get(i).getMapToField());
-                            }
+                            doc.put(headers[i], row[i]);
+                            doc.put(metaMap.get(i).getMapToField(), transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
+
+
                         }
 
                     }
 
                 } else {
 
-                    if (r == 0) {
-                        transformedRowsHeader.add(headers[i]);
-                    }
 
-                    lst.add(row[i]);
+                    doc.put(headers[i], row[i]);
+
                 }
             }
 
-            transformedRows.add(lst);
-
-            r++;
+            transformedRows.add(doc);
 
         }
 

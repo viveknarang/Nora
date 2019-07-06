@@ -9,7 +9,6 @@ public class Rule {
 
     private String fileName = null;
     private String mapFromField = null;
-    private int fromFieldIndex = 0;
     private String overWrite = null;
     private String mapToField = null;
 
@@ -22,8 +21,6 @@ public class Rule {
     public String getMapFromField() {
         return mapFromField;
     }
-
-    public int getFromFieldIndex() { return fromFieldIndex; }
 
     public String getMapToField() {
         return mapToField;

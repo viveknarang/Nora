@@ -15,8 +15,12 @@ import com.viveknarang.nora.model.Rule;
  */
 public class Transformer {
 
-	private static HashMap<Integer, TreeMap<Integer, List<String>>> rulesMap = new HashMap<>();
+	private static HashMap<String, TreeMap<Integer, List<String>>> rulesMap = new HashMap<>();
 	private static HashMap<Integer, Rule> metaMap = new HashMap<>();
+
+	private static HashMap<Integer, String> fieldIndexMap = new HashMap<>();
+	private static HashMap<String, Integer> reverseFieldIndexMap = new HashMap<>();
+
 
 	private final static Logger logger = Logger.getLogger(Transformer.class);
 
@@ -35,9 +39,14 @@ public class Transformer {
 
 		int i;
 
+		for (i = 0 ; i < Extractor.headers.length ; i++) {
+			fieldIndexMap.put(i, Extractor.headers[i]);
+			reverseFieldIndexMap.put(Extractor.headers[i], i);
+		}
+
 		for (Rule rule : rules) {
 
-			metaMap.put(rule.getFromFieldIndex(), rule);
+			metaMap.put(reverseFieldIndexMap.get(rule.getMapFromField()), rule);
 
 			TreeMap<Integer, List<String>> rules$ = new TreeMap<>();
 
@@ -47,7 +56,7 @@ public class Transformer {
 					rules$.put(Integer.parseInt(rule.getTransform().get(ti).get(0)), rule.getTransform().get(ti));
 				}
 
-				rulesMap.put(rule.getFromFieldIndex(), rules$);
+				rulesMap.put(rule.getMapFromField(), rules$);
 			}
 
 		}
@@ -60,7 +69,7 @@ public class Transformer {
 
 			for (i = 0; i < row.length; i++) {
 
-				if (rulesMap.containsKey(i)) {
+				if (rulesMap.containsKey(fieldIndexMap.get(i))) {
 
 					if (metaMap.get(i).getOverwrite().equalsIgnoreCase("true")) {
 
@@ -72,12 +81,12 @@ public class Transformer {
 							}
 						}
 
-						lst.add(transform(row[i], rulesMap.get(i)));
+						lst.add(transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
 
 					} else {
 
 						lst.add(row[i]);
-						lst.add(transform(row[i], rulesMap.get(i)));
+						lst.add(transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
 
 						if (r == 0) {
 							transformedRowsHeader.add(Extractor.headers[i]);

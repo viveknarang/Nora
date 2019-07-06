@@ -9,10 +9,10 @@ public class Rule {
 
     private String fileName = null;
     private String mapFromField = null;
-    private String overWrite = null;
+    private String overWrite = "false";
     private String mapToField = null;
-    private String ignoreField = null;
-    private String markFieldForGrouping = null;
+    private String ignoreField = "false";
+    private String markFieldForGrouping = "false";
 
     private List<List<String>> transform = null;
 

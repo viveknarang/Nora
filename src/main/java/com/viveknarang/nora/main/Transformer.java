@@ -22,6 +22,7 @@ public class Transformer {
     private static HashMap<String, Integer> reverseFieldIndexMap = new HashMap<>();
     private static List<List<String>> transformedRows = new LinkedList<>();
     private static List<String> transformedRowsHeader = new LinkedList<>();
+
     public Transformer() {
         super();
     }

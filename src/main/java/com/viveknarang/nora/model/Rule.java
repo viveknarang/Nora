@@ -12,6 +12,7 @@ public class Rule {
     private String overWrite = null;
     private String mapToField = null;
     private String ignoreField = null;
+    private String markFieldForGrouping = null;
 
     private List<List<String>> transform = null;
 
@@ -34,5 +35,7 @@ public class Rule {
     public List<List<String>> getTransform() {
         return transform;
     }
+
+    public String getMarkFieldForGrouping() { return markFieldForGrouping; }
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author Vivek Narang
  */
-public class RulesConfiguration {
+public class Rules {
 
     public List<Rule> rules;
 

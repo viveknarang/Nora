@@ -3,7 +3,7 @@ package com.viveknarang.nora.main;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.viveknarang.nora.model.JobConfiguration;
-import com.viveknarang.nora.model.RulesConfiguration;
+import com.viveknarang.nora.model.Rules;
 import org.apache.log4j.Logger;
 
 import java.io.FileReader;
@@ -26,11 +26,11 @@ public class Util {
         logger.info("Util:loadConf():End");
     }
 
-    public static RulesConfiguration loadRules(String jobName) throws JsonIOException, IOException {
+    public static Rules loadRules(String jobName) throws JsonIOException, IOException {
 
         logger.info("Util:loadRules(" + jobName + "):Start");
         Gson gson = new Gson();
-        RulesConfiguration rulesConf = gson.fromJson(new FileReader(jobName + ".rules.conf"), RulesConfiguration.class);
+        Rules rulesConf = gson.fromJson(new FileReader(jobName + ".rules.conf"), Rules.class);
         logger.info("Util:loadRules(" + jobName + "):Complete");
         return rulesConf;
     }

@@ -90,7 +90,7 @@ public class ETLJob implements Job {
         logger.info("ETLJob:execute():Start ## EXECUTING JOB : " + name);
 
         try {
-            RulesConfiguration rule = Util.loadRules(name);
+            Rules rule = Util.loadRules(name);
             for (String fileName : files) {
 
                 Extractor e = new Extractor(new File(fileName), csvDelimiter);

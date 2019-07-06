@@ -28,8 +28,16 @@ public class Transformer {
 		super();
 	}
 
-	public static List<List<String>> transformedRows = new LinkedList<>();
-	public static List<String> transformedRowsHeader = new LinkedList<>();
+	private static List<List<String>> transformedRows = new LinkedList<>();
+	private static List<String> transformedRowsHeader = new LinkedList<>();
+
+	public static List<List<String>> getTransformedRows() {
+		return transformedRows;
+	}
+
+	public static List<String> getTransformedRowsHeader() {
+		return transformedRowsHeader;
+	}
 
 	public static void transform(ETLJob job, List<Rule> rules, List<String[]> rows, String fileName) {
 
@@ -71,27 +79,31 @@ public class Transformer {
 
 				if (rulesMap.containsKey(fieldIndexMap.get(i))) {
 
-					if (metaMap.get(i).getOverwrite().equalsIgnoreCase("true")) {
+					if (metaMap.get(i).getIgnoreField().equalsIgnoreCase("false")) {
 
-						if (r == 0) {
-							if (metaMap.get(i) != null && metaMap.get(i).getMapToField() != null) {
-								transformedRowsHeader.add(metaMap.get(i).getMapToField());
-							} else {
+						if (metaMap.get(i).getOverwrite().equalsIgnoreCase("true")) {
+
+							if (r == 0) {
+								if (metaMap.get(i) != null && metaMap.get(i).getMapToField() != null) {
+									transformedRowsHeader.add(metaMap.get(i).getMapToField());
+								} else {
+									transformedRowsHeader.add(Extractor.headers[i]);
+								}
+							}
+
+							lst.add(transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
+
+						} else {
+
+							lst.add(row[i]);
+							lst.add(transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
+
+							if (r == 0) {
 								transformedRowsHeader.add(Extractor.headers[i]);
+								transformedRowsHeader.add(metaMap.get(i).getMapToField());
 							}
 						}
 
-						lst.add(transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
-
-					} else {
-
-						lst.add(row[i]);
-						lst.add(transform(row[i], rulesMap.get(fieldIndexMap.get(i))));
-
-						if (r == 0) {
-							transformedRowsHeader.add(Extractor.headers[i]);
-							transformedRowsHeader.add(metaMap.get(i).getMapToField());
-						}
 					}
 
 				} else {

@@ -40,14 +40,11 @@ public class Loader {
 
     public void load() {
 
-        System.out.println(Transformer.transformedRowsHeader);
-        System.out.println(Transformer.transformedRows.get(0));
-
         try {
 
             Gson gson = new Gson();
 
-            for (int i = 1; i <= Transformer.transformedRows.size(); i++) {
+            for (int i = 1; i <= Transformer.getTransformedRows().size(); i++) {
 
                 if (i % batchSize == 0) {
                     logger.info("Dumping " + batchSize + " documents into the list");
@@ -55,7 +52,7 @@ public class Loader {
                     docs = new LinkedList<>();
                 }
 
-                this.insertIntoList(Transformer.transformedRowsHeader , Transformer.transformedRows.get(i - 1));
+                this.insertIntoList(Transformer.getTransformedRowsHeader() , Transformer.getTransformedRows().get(i - 1));
 
             }
 

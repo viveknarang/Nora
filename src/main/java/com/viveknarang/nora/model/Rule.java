@@ -11,6 +11,7 @@ public class Rule {
     private String mapFromField = null;
     private String overWrite = null;
     private String mapToField = null;
+    private String ignoreField = null;
 
     private List<List<String>> transform = null;
 
@@ -27,6 +28,8 @@ public class Rule {
     }
 
     public String getOverwrite() { return overWrite; }
+
+    public String getIgnoreField() { return ignoreField; }
 
     public List<List<String>> getTransform() {
         return transform;

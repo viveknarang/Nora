@@ -183,6 +183,18 @@ public class Transformer {
                     field = field.substring(Integer.parseInt(rule_.get(rule).get(3)),
                             Integer.parseInt(rule_.get(rule).get(4)));
 
+                } else if (rule_.get(rule).get(1).equals("castInt")) {
+
+                    return Integer.parseInt(field);
+
+                } else if (rule_.get(rule).get(1).equals("castFloat")) {
+
+                    return Float.parseFloat(field);
+
+                } else if (rule_.get(rule).get(1).equals("castDouble")) {
+
+                    return Double.parseDouble(field);
+
                 }
 
             }

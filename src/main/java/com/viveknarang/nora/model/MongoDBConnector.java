@@ -1,6 +1,7 @@
 package com.viveknarang.nora.model;
 
-import com.mongodb.*;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.apache.log4j.Logger;

@@ -1,11 +1,10 @@
 package com.viveknarang.nora.main;
 
-import java.io.IOException;
-
-import org.apache.log4j.Logger;
-
 import com.google.gson.JsonIOException;
+import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
+
+import java.io.IOException;
 
 /**
  * @author Vivek Narang

@@ -28,14 +28,20 @@ public class Rule {
         return mapToField;
     }
 
-    public String getOverwrite() { return overWrite; }
+    public String getOverwrite() {
+        return overWrite;
+    }
 
-    public String getIgnoreField() { return ignoreField; }
+    public String getIgnoreField() {
+        return ignoreField;
+    }
 
     public List<List<String>> getTransform() {
         return transform;
     }
 
-    public String getMarkFieldForGrouping() { return markFieldForGrouping; }
+    public String getMarkFieldForGrouping() {
+        return markFieldForGrouping;
+    }
 
 }

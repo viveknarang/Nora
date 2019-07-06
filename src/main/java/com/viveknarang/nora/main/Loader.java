@@ -1,7 +1,7 @@
 package com.viveknarang.nora.main;
 
-import com.viveknarang.nora.model.MongoDBConnector;
 import com.google.gson.Gson;
+import com.viveknarang.nora.model.MongoDBConnector;
 import org.apache.log4j.Logger;
 import org.bson.Document;
 
@@ -14,13 +14,11 @@ import java.util.List;
 public class Loader {
 
     final static Logger logger = Logger.getLogger(Loader.class);
-
-    MongoDBConnector db = MongoDBConnector.getInstance();
-
     public String database;
     public String collection;
     public int batchSize;
     public List<Document> docs = new LinkedList<>();
+    MongoDBConnector db = MongoDBConnector.getInstance();
 
 
     public Loader(String database, String collection, int batchSize) {
@@ -52,7 +50,7 @@ public class Loader {
                     docs = new LinkedList<>();
                 }
 
-                this.insertIntoList(Transformer.getTransformedRowsHeader() , Transformer.getTransformedRows().get(i - 1));
+                this.insertIntoList(Transformer.getTransformedRowsHeader(), Transformer.getTransformedRows().get(i - 1));
 
             }
 

@@ -1,17 +1,17 @@
 package com.viveknarang.nora.model;
 
-import java.io.File;
-import java.util.Arrays;
-
 import com.viveknarang.nora.main.Extractor;
 import com.viveknarang.nora.main.Loader;
 import com.viveknarang.nora.main.Transformer;
 import com.viveknarang.nora.main.Util;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
 import org.apache.log4j.Logger;
-import org.quartz.PersistJobDataAfterExecution;
+import org.quartz.Job;
 import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.PersistJobDataAfterExecution;
+
+import java.io.File;
+import java.util.Arrays;
 
 
 /**
@@ -80,7 +80,7 @@ public class ETLJob implements Job {
             for (String fileName : files) {
                 Extractor e = new Extractor(new File(fileName));
                 e.extract();
-                Transformer.transform(this, rule.rules, e.getRows(), fileName);
+                Transformer.transform(this, rule.rules, e.getRows(), fileName, e.getHeaders());
                 Loader loader = new Loader(database, collection, batchSize);
                 loader.load();
             }

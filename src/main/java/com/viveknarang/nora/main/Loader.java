@@ -40,6 +40,8 @@ public class Loader {
 
     public void load() {
 
+        System.out.println(Transformer.transformedRowsHeader);
+        System.out.println(Transformer.transformedRows.get(0));
 
         try {
 
@@ -53,7 +55,7 @@ public class Loader {
                     docs = new LinkedList<>();
                 }
 
-                this.insertIntoList(Extractor.headers, Transformer.transformedRows.get(i - 1));
+                this.insertIntoList(Transformer.transformedRowsHeader , Transformer.transformedRows.get(i - 1));
 
             }
 
@@ -65,12 +67,12 @@ public class Loader {
 
     }
 
-    public void insertIntoList(String[] header, List<String> record) {
+    public void insertIntoList(List<String> header, List<String> record) {
 
         Document document = new Document();
 
-        for (int i = 0; i < header.length; i++) {
-            document.put(header[i], record.get(i));
+        for (int i = 0; i < header.size(); i++) {
+            document.put(header.get(i), record.get(i));
         }
 
         docs.add(document);

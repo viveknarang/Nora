@@ -16,6 +16,7 @@ import com.viveknarang.nora.model.Rule;
 public class Transformer {
 
 	private static HashMap<Integer, TreeMap<Integer, List<String>>> rulesMap = new HashMap<>();
+	private static HashMap<Integer, Rule> metaMap = new HashMap<>();
 
 	private final static Logger logger = Logger.getLogger(Transformer.class);
 
@@ -36,6 +37,8 @@ public class Transformer {
 
 		for (Rule rule : rules) {
 
+			metaMap.put(rule.getFromFieldIndex(), rule);
+
 			TreeMap<Integer, List<String>> rules$ = new TreeMap<>();
 
 			if (rule.getFileName().equals(fileName)) {
@@ -49,20 +52,54 @@ public class Transformer {
 
 		}
 
+		int r = 0;
+
 		for (String[] row : rows) {
+
 			List<String> lst = new LinkedList<>();
+
 			for (i = 0; i < row.length; i++) {
+
 				if (rulesMap.containsKey(i)) {
-					lst.add(transform(row[i], rulesMap.get(i)));
+
+					if (metaMap.get(i).getOverwrite().equalsIgnoreCase("true")) {
+
+						if (r == 0) {
+							if (metaMap.get(i) != null && metaMap.get(i).getMapToField() != null) {
+								transformedRowsHeader.add(metaMap.get(i).getMapToField());
+							} else {
+								transformedRowsHeader.add(Extractor.headers[i]);
+							}
+						}
+
+						lst.add(transform(row[i], rulesMap.get(i)));
+
+					} else {
+
+						lst.add(row[i]);
+						lst.add(transform(row[i], rulesMap.get(i)));
+
+						if (r == 0) {
+							transformedRowsHeader.add(Extractor.headers[i]);
+							transformedRowsHeader.add(metaMap.get(i).getMapToField());
+						}
+					}
+
 				} else {
+
+					if (r == 0) {
+						transformedRowsHeader.add(Extractor.headers[i]);
+					}
+
 					lst.add(row[i]);
 				}
 			}
+
 			transformedRows.add(lst);
+
+			r++;
+
 		}
-
-		System.out.println("## SAMPLE TRANSFORMED ROW : " + transformedRows.get(0));
-
 
 		long e = System.currentTimeMillis();
 		logger.info("Transformer:transform()::Complete >> Transformation completed in: " + ((e - s) / 1000)

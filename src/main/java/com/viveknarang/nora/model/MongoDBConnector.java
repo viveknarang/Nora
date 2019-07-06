@@ -78,7 +78,7 @@ public class MongoDBConnector {
     }
 
     public void insert(List<Document> docs) throws Exception {
-        logger.info("Committing + " + docs.size() + " documents into MongoDB");
+        logger.info("#####################################  Committing + " + docs.size() + " documents into MongoDB #####################################");
         dbcollection.insertMany(docs);
         docs.clear();
     }

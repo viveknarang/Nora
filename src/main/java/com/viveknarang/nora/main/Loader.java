@@ -1,6 +1,5 @@
 package com.viveknarang.nora.main;
 
-import com.google.gson.Gson;
 import com.viveknarang.nora.model.MongoDBConnector;
 import org.apache.log4j.Logger;
 import org.bson.Document;
@@ -41,12 +40,9 @@ public class Loader {
 
         try {
 
-            Gson gson = new Gson();
+            for (int i = 0; i < noOfRecords; i++) {
 
-            for (int i = 1; i <= noOfRecords; i++) {
-
-                if (i % batchSize == 0) {
-                    logger.info("Dumping " + batchSize + " documents into the list");
+                if (i != 0 && i % batchSize == 0) {
                     db.insert(docs);
                     docs = new LinkedList<>();
                 }

@@ -19,6 +19,8 @@ public class Transformer {
     private static HashMap<Integer, String> fieldIndexMap = new HashMap<>();
     private static HashMap<String, Integer> reverseFieldIndexMap = new HashMap<>();
     private static List<Document> transformedRows = new LinkedList<>();
+    private static HashMap<String, Document> transformedGroups = new HashMap<>();
+    private static String groupFieldName = "";
 
     public Transformer() {
         super();
@@ -26,6 +28,22 @@ public class Transformer {
 
     public static List<Document> getTransformedRows() {
         return transformedRows;
+    }
+
+    public static String getGroupFieldName() {
+        return groupFieldName;
+    }
+
+    public static void setGroupFieldName(String groupFieldName) {
+        Transformer.groupFieldName = groupFieldName;
+    }
+
+    public static HashMap<String, Document> getTransformedGroups() {
+        return transformedGroups;
+    }
+
+    public static void setTransformedGroups(HashMap<String, Document> transformedGroups) {
+        Transformer.transformedGroups = transformedGroups;
     }
 
     public static void transform(ETLJob job, List<Rule> rules, List<String[]> rows, String fileName, String[] headers, int noOfRecords) {
@@ -42,6 +60,10 @@ public class Transformer {
         }
 
         for (Rule rule : rules) {
+
+            if (rule.getMarkFieldForGrouping().equalsIgnoreCase("true")) {
+                setGroupFieldName(rule.getMapToField());
+            }
 
             metaMap.put(reverseFieldIndexMap.get(rule.getMapFromField()), rule);
 
@@ -107,9 +129,87 @@ public class Transformer {
                 }
             }
 
+            if (!transformedGroups.containsKey(doc.getString(groupFieldName))) {
+
+                Map<String, Object> map = new LinkedHashMap<>();
+
+                for (String key : doc.keySet()) {
+
+                    map.put(key, doc.get(key));
+
+                }
+
+                for (String key : doc.keySet()) {
+
+                    List<Object> list = new LinkedList<>();
+
+                    if (doc.get(key) instanceof Collection) {
+
+                        List<Object> lst = (List<Object>) doc.get(key);
+
+                        for (Object obj : lst) {
+                            list.add(obj);
+                        }
+
+                    } else {
+                        list.add(doc.get(key));
+                    }
+
+                    map.put(key + "_list", list);
+
+                }
+
+                Document dc = new Document();
+                dc.putAll(map);
+
+                transformedGroups.put(doc.getString(groupFieldName), dc);
+
+            } else {
+
+                Document docm = transformedGroups.get(doc.getString(groupFieldName));
+
+                for (String key : docm.keySet()) {
+
+                    if (key.contains("_list")) {
+
+                        List<Object> lst = (List<Object>) docm.get(key);
+
+                        String sub_key = key.substring(0, key.length() - 5);
+
+                        if (doc.get(sub_key) instanceof Collection) {
+
+                            List<Object> lsr = (List<Object>) doc.get(sub_key);
+
+                            for (Object obj : lsr) {
+                                lst.add(obj);
+                            }
+
+                        } else {
+
+                            lst.add(doc.get(sub_key));
+
+                        }
+
+                        Set<Object> st = new HashSet<>();
+                        st.addAll(lst);
+                        lst.clear();
+                        lst.addAll(st);
+                        docm.put(key, lst);
+
+                    }
+
+                }
+
+                transformedGroups.put(doc.getString(groupFieldName), docm);
+
+            }
+
             transformedRows.add(doc);
 
+
         }
+
+        System.out.println(transformedGroups.get("Ukraine").toJson());
 
         System.out.println(transformedRows.get(0).toJson());
 

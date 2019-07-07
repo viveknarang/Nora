@@ -15,30 +15,39 @@ public class Loader {
     final static Logger logger = Logger.getLogger(Loader.class);
     public String database;
     public String collection;
+    public String containerCollection;
     public int batchSize;
-    public List<Document> docs = new LinkedList<>();
     int noOfRecords;
+
+    public List<Document> docs = new LinkedList<>();
     MongoDBConnector db = MongoDBConnector.getInstance();
 
 
-    public Loader(String database, String collection, int batchSize, int noOfRecords) {
+    public Loader(String database, String collection, int batchSize, int noOfRecords, String containerCollection) {
 
         super();
 
         this.database = database;
         this.collection = collection;
+        this.containerCollection = containerCollection;
         this.batchSize = batchSize;
         this.noOfRecords = noOfRecords;
+
         db.connect();
         db.getDatabase(database);
-        db.getCollection(collection);
 
         load();
+        loadContainerCollection();
+
+        db.closeConnection();
+
     }
 
     public void load() {
 
         try {
+
+            db.getCollection(collection);
 
             for (int i = 0; i < noOfRecords; i++) {
 
@@ -51,7 +60,32 @@ public class Loader {
 
             }
 
-            db.closeConnection();
+        } catch (Exception e) {
+            logger.error("Exception: " + e.toString());
+        }
+
+    }
+
+
+    public void loadContainerCollection() {
+
+        docs = new LinkedList<>();
+
+        try {
+
+            db.getCollection(containerCollection);
+
+
+            for (String key : Transformer.getTransformedGroups().keySet()) {
+
+
+                docs.add(Transformer.getTransformedGroups().get(key));
+
+
+            }
+
+            db.insert(docs);
+
 
         } catch (Exception e) {
             logger.error("Exception: " + e.toString());

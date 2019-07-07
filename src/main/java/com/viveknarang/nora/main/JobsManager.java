@@ -32,6 +32,7 @@ public class JobsManager {
             jobDataMap.put("NO_OF_RECORDS", job.getNumberOfRecords());
             jobDataMap.put("DATABASE", job.getDatabase());
             jobDataMap.put("COLLECTION", job.getCollection());
+            jobDataMap.put("CONTAINER_COLLECTION", job.getContainerCollection());
             jobDataMap.put("BATCH_SIZE", job.getBatchSize());
 
             Trigger trigger = TriggerBuilder.newTrigger().withIdentity(job.getName(), "Nora").withSchedule(

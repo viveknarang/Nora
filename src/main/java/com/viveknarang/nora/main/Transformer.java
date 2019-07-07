@@ -81,10 +81,15 @@ public class Transformer {
         }
 
         int p = 0;
+        int bs = 10000;
 
         for (String[] row : rows) {
 
             p++;
+
+            if (p % bs == 0) {
+                System.out.println(" ... " + (p / bs));
+            }
 
             if (p == noOfRecords) {
                 break;

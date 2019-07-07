@@ -36,6 +36,8 @@ public class ETLJob implements Job {
 
     public String collection;
 
+    public String containerCollection;
+
     public int batchSize;
 
     public String getName() {
@@ -66,6 +68,8 @@ public class ETLJob implements Job {
         return collection;
     }
 
+    public String getContainerCollection() { return containerCollection; }
+
     public int getBatchSize() {
         return batchSize;
     }
@@ -84,6 +88,7 @@ public class ETLJob implements Job {
         int noOfRecords = dataMap.getIntValue("NO_OF_RECORDS");
         String database = dataMap.getString("DATABASE");
         String collection = dataMap.getString("COLLECTION");
+        String containerCollection = dataMap.getString("CONTAINER_COLLECTION");
         int batchSize = dataMap.getIntValue("BATCH_SIZE");
 
         logger.info("------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -101,8 +106,10 @@ public class ETLJob implements Job {
                 }
 
                 Transformer.transform(this, rule.rules, e.getRows(), fileName, e.getHeaders(), noOfRecords);
-                Loader loader = new Loader(database, collection, batchSize, noOfRecords);
+                Loader loader = new Loader(database, collection, batchSize, noOfRecords, containerCollection);
                 loader.load();
+
+                System.gc();
 
             }
         } catch (Exception e) {

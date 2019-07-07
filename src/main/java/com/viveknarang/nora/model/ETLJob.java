@@ -68,7 +68,9 @@ public class ETLJob implements Job {
         return collection;
     }
 
-    public String getContainerCollection() { return containerCollection; }
+    public String getContainerCollection() {
+        return containerCollection;
+    }
 
     public int getBatchSize() {
         return batchSize;

@@ -17,9 +17,8 @@ public class Loader {
     public String collection;
     public String containerCollection;
     public int batchSize;
-    int noOfRecords;
-
     public List<Document> docs = new LinkedList<>();
+    int noOfRecords;
     MongoDBConnector db = MongoDBConnector.getInstance();
 
 

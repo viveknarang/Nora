@@ -5,8 +5,10 @@ import com.viveknarang.nora.model.ETLJob;
 import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.calendar.WeeklyCalendar;
 
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * @author Vivek Narang
@@ -34,11 +36,16 @@ public class JobsManager {
             jobDataMap.put("COLLECTION", job.getCollection());
             jobDataMap.put("CONTAINER_COLLECTION", job.getContainerCollection());
             jobDataMap.put("BATCH_SIZE", job.getBatchSize());
+            jobDataMap.put("TIME_ZONE", job.getTimeZone());
 
             Trigger trigger = TriggerBuilder.newTrigger().withIdentity(job.getName(), "Nora").withSchedule(
                     CronScheduleBuilder.cronSchedule(job.getSchedule())).build();
 
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+            WeeklyCalendar  weekly = new WeeklyCalendar();
+            weekly.setTimeZone(TimeZone.getTimeZone(job.getTimeZone()));
+            scheduler.addCalendar("weekly", weekly, false,false);
+
             scheduler.start();
             scheduler.scheduleJob(xjob, trigger);
 

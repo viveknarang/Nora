@@ -40,6 +40,8 @@ public class ETLJob implements Job {
 
     public int batchSize;
 
+    public String timeZone;
+
     public String getName() {
         return name;
     }
@@ -76,6 +78,8 @@ public class ETLJob implements Job {
         return batchSize;
     }
 
+    public String getTimeZone() { return timeZone; }
+
     @Override
     public String toString() {
         return "ETLJob [name=" + name + ", files=" + Arrays.toString(files) + ", schedule=" + schedule + "]";
@@ -92,6 +96,7 @@ public class ETLJob implements Job {
         String collection = dataMap.getString("COLLECTION");
         String containerCollection = dataMap.getString("CONTAINER_COLLECTION");
         int batchSize = dataMap.getIntValue("BATCH_SIZE");
+        String timeZone = dataMap.getString("TIME_ZONE");
 
         logger.info("------------------------------------------------------------------------------------------------------------------------------------------------");
         logger.info("ETLJob:execute():Start ## EXECUTING JOB : " + name);

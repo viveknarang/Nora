@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: Check Secrets
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -16,6 +16,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Test
-      run: echo "Hello ${{ github.event.inputs.name }}"
+    - uses: actions/checkout@v2
+    
+    - name: Install git-secrets
+      run: apt install git-secrets && git-secrets --install && git-secrets --register-aws
+
+    - name: Look for accidentally checked-in secrets
+      run: git-secrets --scan-history

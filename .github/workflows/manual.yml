@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Install git-secrets
-      run: apt install git-secrets && git-secrets --install && git-secrets --register-aws
+      run: sudo apt install git-secrets && git-secrets --install && git-secrets --register-aws
 
     - name: Look for accidentally checked-in secrets
       run: git-secrets --scan-history
